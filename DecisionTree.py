@@ -112,10 +112,10 @@ class DecisionTree():
 
     def predict(self, x):
         if len(x.shape) > 1:
-            predictions = []
+            predictions = np.zeros(x.shape[0], dtype=object)
             for i in range(x.shape[0]):
-                predictions.append(self.rec_predict(x[i, :], self.root))
-            return np.array(predictions)
+                predictions[i] = (self.rec_predict(x[i, :], self.root))
+            return predictions
         else:
             return self.rec_predict(x, self.root)
 

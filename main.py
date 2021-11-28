@@ -1,4 +1,5 @@
 import pandas as pd
+import time
 import numpy as np
 # import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
@@ -6,7 +7,7 @@ from CrossValidation import *
 from DecisionTree import  DecisionTree
 
 INPATH = 'data/'
-N_CLASSES = 24
+N_CLASSES = 2
 
 def write_out_tree(out, filename='data/out.txt'):
     f = open(filename, "w")
@@ -50,10 +51,12 @@ def load_dataset(path):
 
 
 def main():
+
     dataset = load_dataset(INPATH+'adult.data')
+    """
     dataset = dataset.replace({'?': np.NaN})
     dataset = dataset.dropna()
-
+    """
     data = dataset.to_numpy()
     np.random.shuffle(data)
     continuous_attr_index = get_continuous_attrs(dataset)
@@ -75,12 +78,15 @@ def main():
         print("Index ["+str(i)+"]; Prediction: "+str(predict)+" GT: "+str(ground_truth)+"     "+("Correct" if ground_truth==predict else "Incorrect"))
 
     # ------------------------------------------------ CROSS VAL ----------------------------------------------------- #
+    t = time.time()
     print("\n\nCross Validation Score: ", cross_val_score(decision_tree, X, Y, scoring="accuracy"))
-
+    print("CrossValidation elapsed time: ", time.time() - t)
     # ------------------------------------------------ TEST DATA ----------------------------------------------------- #
     test_dataset = load_dataset(INPATH + 'adult.test')
+    """
     test_dataset = test_dataset.replace({'?': np.NaN})
     test_dataset = test_dataset.dropna()
+    """
     test_data = test_dataset.to_numpy()
     test_data = continuous_to_discrete_attr(test_data, continuous_attr_index, get_bins=False, bins=bins_list, n=N_CLASSES)
 
