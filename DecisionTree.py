@@ -5,14 +5,14 @@ from Node import Node
 
 
 class DecisionTree():
-    def __init__(self, criterion='gini'):
-        if criterion == 'entropy':
+    def __init__(self, criterion='gini_gain'):
+        if criterion == 'entropy_gain':
             self.criterion = entropy_gain
         elif criterion == "entropy_ratio":
             self.criterion = gain_ratio_entropy
         elif criterion == "gini_ratio":
             self.criterion = gain_ratio_gini
-        elif criterion == "gini":
+        elif criterion == "gini_gain":
             self.criterion = gini_gain
         else:
             self.criterion = gini_gain
